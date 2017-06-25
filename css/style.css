@@ -648,19 +648,19 @@ html {
 }
 
 .flashingCell1 {
-  -webkit-animation: background 4s steps(1) infinite;
-  animation: background 7.13s linear infinite;
+  -webkit-animation: background 5.11s linear infinite;
+  animation: background 5.11s linear infinite;
   /*animation-timing-function: */
 }
 
 .flashingCell2 {
-  -webkit-animation: background2 5.09s steps(1) infinite;
-  animation: background2 2.11s linear infinite;
+  -webkit-animation: background2 7.13s linear infinite;
+  animation: background2 7.13s linear infinite;
   /*animation-timing-function: */
 }
 
 .flashingCell3 {
-  -webkit-animation: background3 4s steps(1) infinite;
+  -webkit-animation: background3 6s linear infinite;
   animation: background3 6s linear infinite;
   /*animation-timing-function: */
 }

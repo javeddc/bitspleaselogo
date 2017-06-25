@@ -72,7 +72,7 @@ var gameInit = function() {
       }
       var rand = 0
       var str = ''
-      console.log(input_board);
+
       for (var i = 0; i < input_board.length; i++) {
         var newRow = document.createElement('div');
         newRow.classList.add('gridRow');
@@ -109,9 +109,9 @@ var gameInit = function() {
       var c1 = object.c1;
       var c2 = object.c2;
       var c3 = object.c3;
-      console.log(c1 + c2 + c3);
+
       var b = JSON.parse(object.b);
-      console.log(b);
+
 
       for (var i = 0; i < b.length; i++) {
         var newRow = document.createElement('div');
@@ -176,10 +176,7 @@ var gameInit = function() {
     pushChar: function() {
       if (big_board.length == 0) {
         big_board = board;
-        console.log('bb:');
-        console.log(big_board);
-        console.log('b:');
-        console.log(board);
+
       } else {
         for (var i = 0; i < board.length; i++) {
           for (var j = 0; j < board[0].length; j++) {
@@ -194,13 +191,12 @@ var gameInit = function() {
     click: function(clicked) {
 
 
-      console.log(clicked.id);
+
 
       var xVal = parseInt(clicked.id.substr(0, 3));
       var yVal = parseInt(clicked.id.substr(3, 3));
 
-      console.log(xVal);
-      console.log(yVal);
+
 
       if (board[xVal][yVal] === 0) {
         clicked.classList.add('blackCell');
@@ -226,40 +222,7 @@ var pickCell = function() {
 }
 
 var game = gameInit();
-
-// game.drawGrid();
 game.initialise();
-
-// grid.addEventListener('click', function() {
-//   if (event.target.classList.contains('gridCell')) {
-//     console.log(event.target);
-//     pickCell(event);
-//
-//     arr_output.textContent = JSON.stringify(game.getBoard());
-//
-//   }
-// })
-// add_charBtn.addEventListener('click', function() {
-//   game.pushChar();
-//   game.resetOutputGrid();
-//   game.drawGridOutput(game.getBigBoard());
-//   console.log('board');
-//   console.log(game.getBoard());
-//   console.log('bigboard');
-//   console.log(game.getBigBoard());
-// })
-//
-// resetBtn.addEventListener('click', game.resetInputGrid);
-// rescaleBtn.addEventListener('click', function() {
-//   console.log('beep');
-//   xdimension = x_rescale_val.value;
-//   ydimension = y_rescale_val.value;
-//   game.resetInputGrid();
-//   game.clearBoard();
-//
-// })
-
-
 game.drawGridOutput(bitsPlease);
 
 newPatBtn.addEventListener('click', function() {
@@ -292,7 +255,7 @@ grabBtn.addEventListener('click', function() {
 
 num_colors.addEventListener('click', function() {
   game.drawGridOutput(bitsPlease);
-  console.log('boop');
+
 })
 
 rendBtn.addEventListener('click', function() {
