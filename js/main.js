@@ -1,14 +1,6 @@
-var xdimension = 6;
-var ydimension = 9;
-var winCount = 3;
 var grid = document.getElementById('grid');
-var resetBtn = document.getElementById('reset');
-var rescaleBtn = document.getElementById('rescale');
-var x_rescale_val = document.getElementById('x_rescale_val');
-var y_rescale_val = document.getElementById('y_rescale_val');
 var arr_output = document.getElementById('arr_out');
 var grid_output = document.getElementById('grid_out');
-var add_charBtn = document.getElementById('add_char');
 var grabBtn = document.getElementById('grab');
 var color_vals = document.getElementById('color_vals');
 var grab_output = document.getElementById('grab_out');
@@ -18,61 +10,803 @@ var newPatBtn = document.getElementById('new_pat');
 var num_colors = document.getElementById('num_colors');
 
 var bitsPlease = [
-  [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-  [2, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 2],
-  [2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, 2, 2, 2, 0, 0, 2],
-  [2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2],
-  [2, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2],
-  [2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2],
-  [2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2],
-  [2, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 2, 2, 2, 2],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2],
-  [2, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-  [2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 2],
-  [2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 2],
-  [2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 2],
-  [2, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 2],
-  [2, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2],
-  [2, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 2],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-  [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+  [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  [
+    2,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    0,
+    0,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2,
+    0,
+    0,
+    2,
+    2,
+    2,
+    0,
+    0,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2
+  ],
+  [
+    2,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  [
+    2,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    2
+  ],
+  [
+    2,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    2
+  ],
+  [
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2
+  ],
+  [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+  ]
 ]
-
 
 function pad(n, width) {
   n = n + '';
-  return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+  return n.length >= width
+    ? n
+    : new Array(width - n.length + 1).join('0') + n;
 }
 
-
-var gameInit = function() {
-  // var board = [];
+var sessionInit = function() {
   var big_board = bitsPlease;
   var newGame = {
-    drawGrid: function() {
-      for (var i = 0; i < ydimension; i++) {
-        var newRow = document.createElement('div');
-        newRow.classList.add('gridRow');
-        grid.appendChild(newRow)
-        for (var j = 0; j < xdimension; j++) {
-          var newCell = document.createElement('div');
-          newCell.classList.add('gridCell');
-          newCell.id = pad(i, 3) + pad(j, 3);
-          newCell.classList.add('center')
-          newRow.appendChild(newCell);
-        }
-      }
-    },
     drawGridOutput: function(input_board) {
-      // xoutdimension = board[0].length;
-      // youtdimension = board.length;
       while (grid_output.firstChild) {
         grid_output.removeChild(grid_output.firstChild);
       }
       var rand = 0
       var str = ''
-
       for (var i = 0; i < input_board.length; i++) {
         var newRow = document.createElement('div');
         newRow.classList.add('gridRow');
@@ -87,7 +821,6 @@ var gameInit = function() {
             newCell.classList.add('whiteCell');
           } else {
             rand = Math.floor(Math.random() * num_colors.value) + 1
-
             if (rand == 1) {
               big_board[i][j] = 3
             }
@@ -97,7 +830,6 @@ var gameInit = function() {
             if (rand == 3) {
               big_board[i][j] = 5
             }
-
             str = 'flashingCell' + rand.toString();
             newCell.classList.add(str);
           }
@@ -109,16 +841,11 @@ var gameInit = function() {
       var c1 = object.c1;
       var c2 = object.c2;
       var c3 = object.c3;
-
       var b = JSON.parse(object.b);
-
-
       for (var i = 0; i < b.length; i++) {
         var newRow = document.createElement('div');
         newRow.classList.add('gridRow');
         grab_output.appendChild(newRow);
-
-
         for (var j = 0; j < b[0].length; j++) {
           var newCell = document.createElement('div');
           newCell.classList.add('displayCell');
@@ -136,19 +863,9 @@ var gameInit = function() {
           newRow.appendChild(newCell);
         }
       }
-
-
-
-
     },
     clearBoard: function() {
       board = [];
-      for (var i = 0; i < ydimension; i++) {
-        board.push([])
-        for (var j = 0; j < xdimension; j++) {
-          board[i].push(0)
-        }
-      }
     },
     getBoard: function() {
       return board
@@ -157,16 +874,12 @@ var gameInit = function() {
       return big_board
     },
     initialise: function() {
-      game.clearBoard();
+      session.clearBoard();
     },
     resetInputGrid: function() {
-
       while (grid.firstChild) {
         grid.removeChild(grid.firstChild);
       }
-      game.drawGrid();
-
-
     },
     resetOutputGrid: function() {
       while (grid_output.firstChild) {
@@ -184,20 +897,13 @@ var gameInit = function() {
           }
         }
       }
-      game.resetInputGrid();
-      game.clearBoard();
-      arr_output.textContent = JSON.stringify(game.getBoard());
+      session.resetInputGrid();
+      session.clearBoard();
+      arr_output.textContent = JSON.stringify(session.getBoard());
     },
     click: function(clicked) {
-
-
-
-
       var xVal = parseInt(clicked.id.substr(0, 3));
       var yVal = parseInt(clicked.id.substr(3, 3));
-
-
-
       if (board[xVal][yVal] === 0) {
         clicked.classList.add('blackCell');
         clicked.classList.remove('redCell');
@@ -212,50 +918,41 @@ var gameInit = function() {
         board[xVal][yVal] = 0;
       }
     }
-
   }
   return newGame
 }
 
 var pickCell = function() {
-  game.click(event.target);
+  session.click(event.target);
 }
 
-var game = gameInit();
-game.initialise();
-game.drawGridOutput(bitsPlease);
+var session = sessionInit();
+session.initialise();
+session.drawGridOutput(bitsPlease);
 
 newPatBtn.addEventListener('click', function() {
-  game.drawGridOutput(bitsPlease);
+  session.drawGridOutput(bitsPlease);
 })
 
-
 grabBtn.addEventListener('click', function() {
-
   while (grab_output.firstChild) {
     grab_output.removeChild(grab_output.firstChild);
   }
-
-  var pix1val = window.getComputedStyle(document.getElementsByClassName('flashingCell1')[0]).backgroundColor
-
+  var pix1val = window.getComputedStyle(document.getElementsByClassName('flashingCell1')[0]).backgroundColor;
   var pix2val = 'none';
   var pix3val = 'none';
-
   if (num_colors.value > 1) {
     pix2val = window.getComputedStyle(document.getElementsByClassName('flashingCell2')[0]).backgroundColor;
   }
-
   if (num_colors.value > 2) {
     pix3val = window.getComputedStyle(document.getElementsByClassName('flashingCell3')[0]).backgroundColor;
   }
-
-  color_vals.value = '{ \"c1\": \"' + pix1val + '\", \"c2\": \"' + pix2val + '\", \"c3\": \"' + pix3val + '\", \"b\": \"' + JSON.stringify(game.getBigBoard()) + '\" }';
-  game.drawGrab(JSON.parse(color_vals.value));
+  color_vals.value = '{ \"c1\": \"' + pix1val + '\", \"c2\": \"' + pix2val + '\", \"c3\": \"' + pix3val + '\", \"b\": \"' + JSON.stringify(session.getBigBoard()) + '\" }';
+  session.drawGrab(JSON.parse(color_vals.value));
 })
 
 num_colors.addEventListener('click', function() {
-  game.drawGridOutput(bitsPlease);
-
+  session.drawGridOutput(bitsPlease);
 })
 
 rendBtn.addEventListener('click', function() {
@@ -267,5 +964,4 @@ rendBtn.addEventListener('click', function() {
       rend_output.appendChild(canvas);
     }
   });
-
 })
